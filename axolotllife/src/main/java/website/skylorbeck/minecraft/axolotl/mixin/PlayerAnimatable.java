@@ -6,13 +6,19 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.SwordItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import website.skylorbeck.minecraft.axolotl.Declarar;
 import website.skylorbeck.minecraft.axolotl.EntityRetainer;
+import website.skylorbeck.minecraft.axolotl.entities.AxoBaseEntity;
 import website.skylorbeck.minecraft.axolotl.entities.BabyAxolotl;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerAnimatable {
@@ -34,9 +40,9 @@ public class PlayerAnimatable {
         entity.limbDistance = acpe.limbDistance;
         entity.limbAngle = acpe.limbAngle;
         entity.handSwinging = acpe.handSwinging;
+        entity.handSwingProgress = acpe.handSwingProgress;
         entity.handSwingTicks = acpe.handSwingTicks;
         entity.lastHandSwingProgress = acpe.lastHandSwingProgress;
-        entity.handSwingProgress = acpe.handSwingProgress;
         entity.bodyYaw = acpe.bodyYaw;
         entity.prevBodyYaw = acpe.prevBodyYaw;
         entity.headYaw = acpe.headYaw;

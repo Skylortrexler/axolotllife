@@ -73,3 +73,14 @@ publishing {
         // mavenLocal()
     }
 }
+
+loom {
+    runs {
+        client {
+            programArgs "--username", "RaphBot"
+        }
+        server {
+            serverWithGui()
+        }
+    }
+}

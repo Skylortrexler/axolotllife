@@ -1,5 +1,7 @@
 package website.skylorbeck.minecraft.axolotl;
 
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
