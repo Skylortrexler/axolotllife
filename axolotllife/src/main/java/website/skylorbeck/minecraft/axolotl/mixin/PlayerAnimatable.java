@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import website.skylorbeck.minecraft.axolotl.Declarar;
+import website.skylorbeck.minecraft.axolotl.EntityRetainer;
 import website.skylorbeck.minecraft.axolotl.entities.BabyAxolotl;
 
 @Mixin(PlayerEntityRenderer.class)
@@ -18,7 +19,7 @@ public class PlayerAnimatable {
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void injectedRender(AbstractClientPlayerEntity acpe, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci){
-        LivingEntity entity = new BabyAxolotl(Declarar.BABYAXOLOTL,acpe.world);
+        LivingEntity entity = EntityRetainer.getEntity();
         entity.setPos(acpe.getX(), acpe.getY(), acpe.getZ());
         entity.setHeadYaw(acpe.getHeadYaw());
         entity.setJumping(((LivingEntityAccessor) acpe).getJumping());
