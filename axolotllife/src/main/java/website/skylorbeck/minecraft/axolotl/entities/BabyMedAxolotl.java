@@ -12,27 +12,27 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class BabyAxolotl extends AxoBaseEntity implements IAnimatable {
+public class BabyMedAxolotl extends AxoBaseEntity implements IAnimatable {
     AnimationFactory factory = new AnimationFactory(this);
 
-    public BabyAxolotl(EntityType<? extends PathAwareEntity> entityType, World world) {
+    public BabyMedAxolotl(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
     }
 
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<BabyAxolotl>(this, "controller", 5, this::predicate));
+        data.addAnimationController(new AnimationController<BabyMedAxolotl>(this, "controller", 5, this::predicate));
     }
 
 
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
         if (this.isSubmergedInWater()||this.isInsideWaterOrBubbleColumn()||this.isTouchingWater()||this.isSwimming()||this.isSubmergedIn(FluidTags.WATER)){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.swin",true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.swin",true));
         } else if (event.isMoving()){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.walk", true));
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.static",true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.static",true));
         }
 
         return PlayState.CONTINUE;

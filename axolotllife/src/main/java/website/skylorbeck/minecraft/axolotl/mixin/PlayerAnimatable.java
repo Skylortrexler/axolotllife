@@ -3,35 +3,22 @@ package website.skylorbeck.minecraft.axolotl.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 import website.skylorbeck.minecraft.axolotl.Declarar;
-import website.skylorbeck.minecraft.axolotl.EntityRetainer;
-import website.skylorbeck.minecraft.axolotl.entities.AxoBaseEntity;
 import website.skylorbeck.minecraft.axolotl.entities.BabyAxolotl;
-import website.skylorbeck.minecraft.axolotl.models.BabyModel;
-import website.skylorbeck.minecraft.axolotl.renderers.BabyRenderer;
 
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerAnimatable {
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void injectedRender(AbstractClientPlayerEntity acpe, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci){
-        LivingEntity entity = EntityRetainer.getEntity();
+        LivingEntity entity = new BabyAxolotl(Declarar.BABYAXOLOTL,acpe.world);
         entity.setPos(acpe.getX(), acpe.getY(), acpe.getZ());
         entity.setHeadYaw(acpe.getHeadYaw());
         entity.setJumping(((LivingEntityAccessor) acpe).getJumping());

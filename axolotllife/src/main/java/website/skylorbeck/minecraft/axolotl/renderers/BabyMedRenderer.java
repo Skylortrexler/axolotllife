@@ -8,16 +8,17 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
-import website.skylorbeck.minecraft.axolotl.entities.BabyAxolotl;
-import website.skylorbeck.minecraft.axolotl.models.BabyModel;
+import website.skylorbeck.minecraft.axolotl.entities.BabyMedAxolotl;
+import website.skylorbeck.minecraft.axolotl.models.BabyMedModel;
 
-public class BabyRenderer extends GeoEntityRenderer<BabyAxolotl> {
-    public BabyRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, new BabyModel());
-        this.shadowRadius = 0.5F; //change 0.7 to the desired shadow size.
+public class BabyMedRenderer extends GeoEntityRenderer<BabyMedAxolotl> {
+    public BabyMedRenderer(EntityRendererFactory.Context ctx) {
+        super(ctx, new BabyMedModel());
+        this.shadowRadius = 1F; //change 0.7 to the desired shadow size.
     }
+
     @Override
-    public RenderLayer getRenderType(BabyAxolotl animatable, float partialTicks, MatrixStack stack,
+    public RenderLayer getRenderType(BabyMedAxolotl animatable, float partialTicks, MatrixStack stack,
                                      @Nullable VertexConsumerProvider renderTypeBuffer, @Nullable VertexConsumer vertexBuilder,
                                      int packedLightIn, Identifier textureLocation) {
         return RenderLayer.getEntityTranslucent(this.getTextureLocation(animatable));
