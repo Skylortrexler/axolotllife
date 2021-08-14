@@ -4,9 +4,9 @@
   "package": "website.skylorbeck.minecraft.axolotl.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "LivingEntityAccessor",
     "PlayerAnimatable",
-    "PlayerEntityMixin",
-    "LivingEntityAccessor"
+    "PlayerEntityMixin"
   ],
   "client": [
   ],

@@ -5,9 +5,17 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.world.World;
 
 public class AxoBaseEntity extends PathAwareEntity  {
-    public int state = 0;
+    private int state = 0;
 
     protected AxoBaseEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

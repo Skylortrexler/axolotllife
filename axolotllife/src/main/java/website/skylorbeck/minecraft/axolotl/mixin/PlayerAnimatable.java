@@ -42,7 +42,6 @@ public class PlayerAnimatable {
         entity.setSneaking(acpe.isSneaking());
         entity.setSwimming(acpe.isSwimming());
 //        entity.setCurrentHand(acpe.getActiveHand());
-        entity.setPose(acpe.getPose());
         entity.lastLimbDistance = acpe.lastLimbDistance;
         entity.limbDistance = acpe.limbDistance;
         entity.limbAngle = acpe.limbAngle;

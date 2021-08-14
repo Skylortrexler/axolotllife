@@ -2,6 +2,7 @@ package website.skylorbeck.minecraft.axolotl.entities;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -21,16 +22,23 @@ public class BabyAxolotl extends AxoBaseEntity implements IAnimatable {
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 20, this::predicate));
+        data.addAnimationController(new AnimationController<BabyAxolotl>(this, "controller", 5, this::predicate));
     }
 
+
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
-       /* switch (state) {
-            case 0 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("static", true));
-            case 1 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
-            case 2 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("swim", true));
-            case 3 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+        if (this.isSubmergedInWater()||this.isInsideWaterOrBubbleColumn()||this.isTouchingWater()||this.isSwimming()||this.isSubmergedIn(FluidTags.WATER)){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.swin",true));
+        } else if (event.isMoving()){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.walk", true));
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.static",true));
+        }
+        /*switch (getState()) {
+            case 0 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.static"));
+            case 1 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.walk"));
+            case 2 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.swin"));
+            case 3 -> event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.steve.death"));
         }*/
         return PlayState.CONTINUE;
     }

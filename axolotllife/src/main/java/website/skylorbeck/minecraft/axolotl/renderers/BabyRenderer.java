@@ -15,6 +15,7 @@ import website.skylorbeck.minecraft.axolotl.models.BabyModel;
 public class BabyRenderer extends GeoEntityRenderer<BabyAxolotl> {
     public BabyRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new BabyModel());
+        this.shadowRadius = 0.5F; //change 0.7 to the desired shadow size.
     }
     @Override
     public RenderLayer getRenderType(BabyAxolotl animatable, float partialTicks, MatrixStack stack,
