@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "website.skylorbeck.minecraft.axolotl.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PlayerAnimatable",
+    "PlayerEntityMixin",
+    "LivingEntityAccessor"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
