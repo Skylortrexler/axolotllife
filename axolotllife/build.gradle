@@ -11,6 +11,10 @@ version = project.mod_version
 group = project.maven_group
 repositories {
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    maven {
+        name "jitpack"
+        url "https://jitpack.io"
+    }
 }
 dependencies {
     //to change the versions see the gradle.properties file
@@ -22,6 +26,10 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation 'software.bernie.geckolib:geckolib-fabric-1.17:3.0.12:dev'
+
+//    modImplementation("com.github.virtuoel:pehkui:2.2.1") {
+//        exclude(group: "net.fabricmc.fabric-api")
+//    }
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
 }
@@ -76,9 +84,9 @@ publishing {
 
 loom {
     runs {
-        client {
+       /* client {
             programArgs "--username", "RaphBot"
-        }
+        }*/
         server {
             serverWithGui()
         }

@@ -1,6 +1,5 @@
 package website.skylorbeck.minecraft.axolotl.entities;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.tag.FluidTags;
@@ -16,8 +15,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AdolAxolotl extends AxoBaseEntity implements IAnimatable {
     AnimationFactory factory = new AnimationFactory(this);
@@ -49,6 +46,13 @@ public class AdolAxolotl extends AxoBaseEntity implements IAnimatable {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.walk", true));
         } else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static",true));
+        }
+
+        return PlayState.CONTINUE;
+    }
+    private <P extends IAnimatable> PlayState predicate2(AnimationEvent<P> event) {
+        if (this.handSwinging) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.attack",false));
         }
         return PlayState.CONTINUE;
     }
