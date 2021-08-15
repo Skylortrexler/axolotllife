@@ -3,6 +3,7 @@ package website.skylorbeck.minecraft.axolotl.entities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -15,6 +16,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import java.util.Objects;
 
 public class BabyMedAxolotl extends AxoBaseEntity implements IAnimatable {
     AnimationFactory factory = new AnimationFactory(this);
@@ -50,12 +53,11 @@ public class BabyMedAxolotl extends AxoBaseEntity implements IAnimatable {
     @Override
     public void useAbility() {
         ItemStack itemStack = new ItemStack(Items.ARROW);
-        float f = 1f;
+        float f = 0.25f;
         if (!world.isClient) {
-            ArrowItem arrowItem = (ArrowItem) (Items.ARROW);
-            PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, itemStack, world.getClosestPlayer(this,5d));
+            PersistentProjectileEntity persistentProjectileEntity = ProjectileUtil.createArrowProjectile(Objects.requireNonNull(world.getClosestPlayer(this, 5d)),itemStack,1);
             persistentProjectileEntity.setProperties(world.getClosestPlayer(this,5d), world.getClosestPlayer(this,5d).getPitch(), world.getClosestPlayer(this,5d).getYaw(), 0.0F, f * 3.0F, 1.0F);
-            persistentProjectileEntity.setCritical(true);
+            persistentProjectileEntity.setCritical(false);
             world.spawnEntity(persistentProjectileEntity);
         }
     }
