@@ -103,7 +103,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
             equipStack(EquipmentSlot.HEAD,ItemStack.EMPTY);
         }
         switch (this.axostage) {
-            case 0, 1, 2 -> ((PlayerEntity) (Object) this).stepHeight = 1;
+            case 2 -> ((PlayerEntity) (Object) this).stepHeight = 1;
             case 3, 4 -> ((PlayerEntity) (Object) this).stepHeight = 2;
         }
     }
