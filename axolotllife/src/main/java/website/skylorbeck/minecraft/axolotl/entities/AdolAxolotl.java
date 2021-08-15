@@ -32,7 +32,7 @@ public class AdolAxolotl extends AxoBaseEntity implements IAnimatable {
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<AdolAxolotl>(this, "controller", 5, this::predicate));
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
     }
 
 
@@ -46,9 +46,9 @@ public class AdolAxolotl extends AxoBaseEntity implements IAnimatable {
         }
         if (this.handSwinging) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.attack",false));
-        } else if (this.isSubmergedInWater()||this.isInsideWaterOrBubbleColumn()||this.isTouchingWater()||this.isSwimming()||this.isSubmergedIn(FluidTags.WATER)){
+        } else /*if (this.isSubmergedInWater()||this.isInsideWaterOrBubbleColumn()||this.isTouchingWater()||this.isSwimming()||this.isSubmergedIn(FluidTags.WATER)){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.swin",true));
-        } else if (event.isMoving()){
+        } else */if (event.isMoving()){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.walk", true));
         } else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static",true));

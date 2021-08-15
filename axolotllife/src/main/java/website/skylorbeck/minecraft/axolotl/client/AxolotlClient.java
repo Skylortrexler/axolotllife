@@ -18,6 +18,7 @@ import org.lwjgl.glfw.GLFW;
 import website.skylorbeck.minecraft.axolotl.Axolotl;
 import website.skylorbeck.minecraft.axolotl.Declarar;
 import website.skylorbeck.minecraft.axolotl.PlayerEntityAccessor;
+import website.skylorbeck.minecraft.axolotl.entities.AxoBaseEntity;
 import website.skylorbeck.minecraft.axolotl.renderers.*;
 
 import static website.skylorbeck.minecraft.axolotl.Axolotl.setmodel;
@@ -26,11 +27,6 @@ import static website.skylorbeck.minecraft.axolotl.Axolotl.setmodel;
 public class AxolotlClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.INSTANCE.register(Declarar.BABYAXOLOTL,BabyRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(Declarar.BABYMEDAXOLOTL, BabyMedRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(Declarar.BABYBIGAXOLOTL, BabyBigRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(Declarar.ADOLAXOLOTL, AdolRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(Declarar.CHADXOLOTL, ChadRenderer::new);
         Declarar.specialability =  KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.axolotl.ability", // The translation key of the keybinding's name
                 InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
@@ -40,6 +36,7 @@ public class AxolotlClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (Declarar.specialability.wasPressed()) {
                 MinecraftClient.getInstance().player.swingHand(Hand.MAIN_HAND);
+//                ((AxoBaseEntity)((PlayerEntityAccessor)MinecraftClient.getInstance().player).getStoredEntity()).useAbility();
                 PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
                 packetByteBuf.writeUuid(MinecraftClient.getInstance().player.getUuid());
                 ClientSidePacketRegistryImpl.INSTANCE.sendToServer(Axolotl.useabilitypacket,packetByteBuf);
@@ -49,9 +46,15 @@ public class AxolotlClient implements ClientModInitializer {
             int data = attachedData.readInt();
             packetContext.getTaskQueue().execute(() -> {
                 PlayerEntity playerEntity = MinecraftClient.getInstance().player;
-//                playerEntity.sendMessage(Text.of(data+""),false);
                 ((PlayerEntityAccessor)playerEntity).setAxostage(data);
             });
         });
+        EntityRendererRegistry.INSTANCE.register(Declarar.BABYAXOLOTL,BabyRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(Declarar.BABYMEDAXOLOTL, BabyMedRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(Declarar.BABYBIGAXOLOTL, BabyBigRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(Declarar.ADOLAXOLOTL, AdolRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(Declarar.CHADXOLOTL, ChadRenderer::new);
+
+
     }
 }

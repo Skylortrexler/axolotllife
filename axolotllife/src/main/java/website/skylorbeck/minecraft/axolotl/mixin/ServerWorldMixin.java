@@ -29,16 +29,17 @@ import java.util.function.BooleanSupplier;
 
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin {
-    @Shadow @Final private List<ServerPlayerEntity> players;
+    @Shadow @Final
+    List<ServerPlayerEntity> players;
 
     @Shadow public abstract ServerScoreboard getScoreboard();
 
     @Inject(at = @At("HEAD"), method = "tick")
     public void injectedTick(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         ServerScoreboard scoreboard = getScoreboard();
-        String playername = "";
-        PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
+        String playername;
         for (PlayerEntity player:this.players) {
+            PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
             playername = player.getEntityName();
             if (((PlayerEntityAccessor)player).getAxostage() == 0 ) {
                 if (scoreboard.getPlayerScore(playername, scoreboard.getObjective("fish")).getScore() >= 3) {

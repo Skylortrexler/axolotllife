@@ -19,16 +19,27 @@ public class PlayerEntityRendererMixin {
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void injectedRender(AbstractClientPlayerEntity acpe, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci){
-        LivingEntity entity = ((PlayerEntityAccessor) acpe).getStoredEntity();
-   /*     if (acpe instanceof ClientPlayerEntity){
-            entity = ((PlayerEntityAccessor)MinecraftClient.getInstance().player).getStoredEntity();
-        }*/
-        entity.bodyYaw = ((PlayerEntity) (Object) acpe).bodyYaw;
-        entity.prevBodyYaw = ((PlayerEntity) (Object) acpe).prevBodyYaw;
-        entity.headYaw = ((PlayerEntity) (Object) acpe).headYaw;
-        entity.prevHeadYaw = ((PlayerEntity) (Object) acpe).prevHeadYaw;
-        MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity,f,g,matrixStack,vertexConsumerProvider,i);
-        ci.cancel();
+        if (acpe!=null) {
+            LivingEntity entity = ((PlayerEntityAccessor) acpe).getStoredEntity();
+            entity.setPos(acpe.getX(), acpe.getY(), acpe.getZ());
+            entity.lastLimbDistance = acpe.lastLimbDistance;
+            entity.limbDistance = acpe.limbDistance;
+            entity.limbAngle = acpe.limbAngle;
+            entity.handSwinging = acpe.handSwinging;
+            entity.handSwingTicks = acpe.handSwingTicks;
+            entity.lastHandSwingProgress = acpe.lastHandSwingProgress;
+            entity.handSwingProgress = acpe.handSwingProgress;
+            entity.bodyYaw = acpe.bodyYaw;
+            entity.prevBodyYaw = acpe.prevBodyYaw;
+            entity.headYaw = acpe.headYaw;
+            entity.prevHeadYaw = acpe.prevHeadYaw;
+            entity.age = acpe.age;
+            entity.preferredHand = acpe.preferredHand;
+            entity.setOnGround(acpe.isOnGround());
+            entity.setVelocity(acpe.getVelocity());
+            MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity, f, g, matrixStack, vertexConsumerProvider, i);
+            ci.cancel();
+        }
     }
 
 }

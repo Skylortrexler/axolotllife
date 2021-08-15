@@ -2,12 +2,12 @@
   "required": true,
   "minVersion": "0.8",
   "package": "website.skylorbeck.minecraft.axolotl.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
     "LivingEntityAccessor",
     "LivingEntityMixin",
-    "PlayerEntityRendererMixin",
     "PlayerEntityMixin",
+    "PlayerEntityRendererMixin",
     "ServerWorldMixin"
   ],
   "client": [

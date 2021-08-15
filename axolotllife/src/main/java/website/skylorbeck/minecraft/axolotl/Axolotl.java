@@ -16,33 +16,27 @@ import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 import website.skylorbeck.minecraft.axolotl.entities.*;
 
+import static net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry.register;
+
 public class Axolotl implements ModInitializer {
     public static Identifier useabilitypacket = new Identifier("axolotl","useability");
     public static Identifier setmodel = new Identifier("axolotl","setmodel");
 
     @Override
     public void onInitialize() {
-        GeckoLib.initialize();
-        FabricDefaultAttributeRegistry.register(Declarar.BABYAXOLOTL,
-                EntityUtils.createGenericEntityAttributes());
-        FabricDefaultAttributeRegistry.register(Declarar.BABYMEDAXOLOTL,
-                EntityUtils.createGenericEntityAttributes());
-        FabricDefaultAttributeRegistry.register(Declarar.BABYBIGAXOLOTL,
-                EntityUtils.createGenericEntityAttributes());
-        FabricDefaultAttributeRegistry.register(Declarar.ADOLAXOLOTL,
-                EntityUtils.createGenericEntityAttributes());
-        FabricDefaultAttributeRegistry.register(Declarar.CHADXOLOTL,
-                EntityUtils.createGenericEntityAttributes());
-
         ServerSidePacketRegistryImpl.INSTANCE.register(useabilitypacket, (packetContext, attachedData) -> {
             packetContext.getTaskQueue().execute(() -> {
                 PlayerEntity playerEntity = packetContext.getPlayer();
                 ((AxoBaseEntity)((PlayerEntityAccessor)playerEntity).getStoredEntity()).useAbility();
             });
         });
-
+        GeckoLib.initialize();
+        register(Declarar.BABYAXOLOTL,EntityUtils.createGenericEntityAttributes());
+        register(Declarar.BABYMEDAXOLOTL, EntityUtils.createGenericEntityAttributes());
+        register(Declarar.BABYBIGAXOLOTL,EntityUtils.createGenericEntityAttributes());
+        register(Declarar.ADOLAXOLOTL, EntityUtils.createGenericEntityAttributes());
+        register(Declarar.CHADXOLOTL,EntityUtils.createGenericEntityAttributes());
     }
-
 }
 //Can only survive in water. Instantly takes damage if out of the water
 //Must kill 3 small fish before evolving

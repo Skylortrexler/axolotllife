@@ -50,7 +50,6 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     @Inject(at = @At("HEAD"), method = "tick")
     public void injectedTick(CallbackInfo ci) {
         LivingEntity entity = getStoredEntity();
-
         entity.setPos(((PlayerEntity) (Object) this).getX(), ((PlayerEntity) (Object) this).getY(), ((PlayerEntity) (Object) this).getZ());
 //        storedEntity.setHeadYaw(((PlayerEntity) (Object) this).getHeadYaw());
         entity.setJumping(((LivingEntityAccessor) this).getJumping());
@@ -61,16 +60,6 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
         entity.setSneaking(((PlayerEntity) (Object) this).isSneaking());
         entity.setSwimming(((PlayerEntity) (Object) this).isSwimming());
 //        storedEntity.setCurrentHand(((PlayerEntity) (Object) this).getActiveHand());
-        entity.lastLimbDistance = ((PlayerEntity) (Object) this).lastLimbDistance;
-        entity.limbDistance = ((PlayerEntity) (Object) this).limbDistance;
-        entity.limbAngle = ((PlayerEntity) (Object) this).limbAngle;
-        entity.handSwinging = ((PlayerEntity) (Object) this).handSwinging;
-        entity.handSwingProgress = ((PlayerEntity) (Object) this).handSwingProgress;
-        entity.handSwingTicks = ((PlayerEntity) (Object) this).handSwingTicks;
-        entity.lastHandSwingProgress = ((PlayerEntity) (Object) this).lastHandSwingProgress;
-
-        entity.age = ((PlayerEntity) (Object) this).age;
-        entity.preferredHand = ((PlayerEntity) (Object) this).preferredHand;
         entity.setOnGround(((PlayerEntity) (Object) this).isOnGround());
         entity.setVelocity(((PlayerEntity) (Object) this).getVelocity());
         entity.setPose(((PlayerEntity) (Object) this).getPose());
