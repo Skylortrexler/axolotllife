@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import website.skylorbeck.minecraft.axolotl.EntityRetainer;
+import website.skylorbeck.minecraft.axolotl.PlayerEntityAccessor;
 import website.skylorbeck.minecraft.axolotl.entities.BabyAxolotl;
 import website.skylorbeck.minecraft.axolotl.entities.BabyBigAxolotl;
 import website.skylorbeck.minecraft.axolotl.entities.BabyMedAxolotl;
@@ -20,7 +20,7 @@ public class LivingEntityMixin {
     public boolean injected(LivingEntity livingEntity, Tag<Fluid> fluidTag) {
         BlockPos blockPos = new BlockPos(((LivingEntity) (Object) this).getX(), ((LivingEntity) (Object) this).getEyeY(), ((LivingEntity) (Object) this).getZ());
         if (livingEntity instanceof PlayerEntity){
-            LivingEntity living = EntityRetainer.getEntity();
+            LivingEntity living = ((PlayerEntityAccessor)livingEntity).getStoredEntity();
             return (((LivingEntity) (Object) this).world.getBlockState(blockPos).isOf(Blocks.AIR) && (living instanceof BabyAxolotl || living instanceof BabyMedAxolotl || living instanceof BabyBigAxolotl));
         }
         return livingEntity.isSubmergedIn(fluidTag);

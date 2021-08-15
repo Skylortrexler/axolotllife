@@ -1,16 +1,11 @@
 package website.skylorbeck.minecraft.axolotl.entities;
 
-import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
-import net.minecraft.world.timer.Timer;
-import net.minecraft.world.timer.TimerCallbackSerializer;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -21,7 +16,6 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import java.util.Collection;
 import java.util.Objects;
 
 public class ChadAxolotl extends AxoBaseEntity implements IAnimatable {

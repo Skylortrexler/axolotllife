@@ -4,20 +4,21 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.fabric.impl.networking.ServerSidePacketRegistryImpl;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.timer.Timer;
 import org.lwjgl.glfw.GLFW;
 import software.bernie.example.EntityUtils;
 import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
-import website.skylorbeck.minecraft.axolotl.entities.AxoBaseEntity;
+import website.skylorbeck.minecraft.axolotl.entities.*;
 
 public class Axolotl implements ModInitializer {
     public static Identifier useabilitypacket = new Identifier("axolotl","useability");
+    public static Identifier setmodel = new Identifier("axolotl","setmodel");
 
     @Override
     public void onInitialize() {
@@ -33,17 +34,14 @@ public class Axolotl implements ModInitializer {
                 EntityUtils.createGenericEntityAttributes());
         FabricDefaultAttributeRegistry.register(Declarar.CHADXOLOTL,
                 EntityUtils.createGenericEntityAttributes());
-        Declarar.specialability =  KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.axolotl.ability", // The translation key of the keybinding's name
-                InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                GLFW.GLFW_KEY_Z, // The keycode of the key
-                "category.axolotl" // The translation key of the keybinding's category.
-        ));
-        ServerSidePacketRegistry.INSTANCE.register(useabilitypacket, (packetContext, attachedData) -> {//get blank trigger packet
+
+        ServerSidePacketRegistryImpl.INSTANCE.register(useabilitypacket, (packetContext, attachedData) -> {
             packetContext.getTaskQueue().execute(() -> {
-                ((AxoBaseEntity)EntityRetainer.getEntity()).useAbility();
+                PlayerEntity playerEntity = packetContext.getPlayer();
+                ((AxoBaseEntity)((PlayerEntityAccessor)playerEntity).getStoredEntity()).useAbility();
             });
         });
+
     }
 
 }

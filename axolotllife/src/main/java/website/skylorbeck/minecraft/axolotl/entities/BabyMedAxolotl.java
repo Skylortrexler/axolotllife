@@ -2,6 +2,10 @@ package website.skylorbeck.minecraft.axolotl.entities;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.item.ArrowItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -27,12 +31,12 @@ public class BabyMedAxolotl extends AxoBaseEntity implements IAnimatable {
 
 
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-        if (this.isSubmergedInWater()||this.isInsideWaterOrBubbleColumn()||this.isTouchingWater()||this.isSwimming()||this.isSubmergedIn(FluidTags.WATER)){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.swin",true));
-        } else if (event.isMoving()){
+        if (this.isSubmergedInWater() || this.isInsideWaterOrBubbleColumn() || this.isTouchingWater() || this.isSwimming() || this.isSubmergedIn(FluidTags.WATER)) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.swin", true));
+        } else if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.walk", true));
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.static",true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.static", true));
         }
 
         return PlayState.CONTINUE;
@@ -41,5 +45,18 @@ public class BabyMedAxolotl extends AxoBaseEntity implements IAnimatable {
     @Override
     public AnimationFactory getFactory() {
         return factory;
+    }
+
+    @Override
+    public void useAbility() {
+        ItemStack itemStack = new ItemStack(Items.ARROW);
+        float f = 1f;
+        if (!world.isClient) {
+            ArrowItem arrowItem = (ArrowItem) (Items.ARROW);
+            PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, itemStack, world.getClosestPlayer(this,5d));
+            persistentProjectileEntity.setProperties(world.getClosestPlayer(this,5d), world.getClosestPlayer(this,5d).getPitch(), world.getClosestPlayer(this,5d).getYaw(), 0.0F, f * 3.0F, 1.0F);
+            persistentProjectileEntity.setCritical(true);
+            world.spawnEntity(persistentProjectileEntity);
+        }
     }
 }
