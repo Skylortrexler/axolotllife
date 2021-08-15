@@ -19,11 +19,8 @@ public class Declarar {
     public static final EntityType<AdolAxolotl> ADOLAXOLOTL = buildEntity(AdolAxolotl::new,AdolAxolotl.class,1f,5f, SpawnGroup.CREATURE);
     public static final EntityType<ChadAxolotl> CHADXOLOTL = buildEntity(ChadAxolotl::new,ChadAxolotl.class,1f,6f, SpawnGroup.CREATURE);
     public static <T extends Entity> EntityType<T> buildEntity(EntityType.EntityFactory<T> entity, Class<T> entityClass, float width, float height, SpawnGroup group) {
-        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             String name = entityClass.getSimpleName().toLowerCase();
             return EntityRegistryBuilder.<T>createBuilder(new Identifier(GeckoLib.ModID, name)).entity(entity)
                     .category(group).dimensions(EntityDimensions.changing(width, height)).build();
-        }
-        return null;
     }
 }

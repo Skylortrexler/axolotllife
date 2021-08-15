@@ -49,6 +49,7 @@ public class AxolotlClient implements ClientModInitializer {
                 ((PlayerEntityAccessor)playerEntity).setAxostage(data);
             });
         });
+
         EntityRendererRegistry.INSTANCE.register(Declarar.BABYAXOLOTL,BabyRenderer::new);
         EntityRendererRegistry.INSTANCE.register(Declarar.BABYMEDAXOLOTL, BabyMedRenderer::new);
         EntityRendererRegistry.INSTANCE.register(Declarar.BABYBIGAXOLOTL, BabyBigRenderer::new);
