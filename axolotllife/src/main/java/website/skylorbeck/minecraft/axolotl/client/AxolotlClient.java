@@ -37,7 +37,8 @@ public class AxolotlClient implements ClientModInitializer {
         ));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (Declarar.specialability.wasPressed()) {
-                MinecraftClient.getInstance().player.swingHand(Hand.MAIN_HAND);
+//                MinecraftClient.getInstance().player.swingHand(Hand.MAIN_HAND);
+                ((PlayerEntityAccessor) MinecraftClient.getInstance().player).useAbility();
                 PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
                 packetByteBuf.writeUuid(MinecraftClient.getInstance().player.getUuid());
                 ClientSidePacketRegistryImpl.INSTANCE.sendToServer(Axolotl.useabilitypacket,packetByteBuf);

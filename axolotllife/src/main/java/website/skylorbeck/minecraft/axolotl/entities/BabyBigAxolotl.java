@@ -1,11 +1,16 @@
 package website.skylorbeck.minecraft.axolotl.entities;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.TippedArrowItem;
+import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -51,12 +56,14 @@ public class BabyBigAxolotl extends AxoBaseEntity implements IAnimatable {
 
     @Override
     public void useAbility() {
-        ItemStack itemStack = new ItemStack(Items.ARROW);
+        ItemStack itemStack = Items.TIPPED_ARROW.getDefaultStack();
+        PotionUtil.setPotion(itemStack, Potions.AWKWARD);
         float f = 0.75f;
         if (!world.isClient) {
             PersistentProjectileEntity persistentProjectileEntity = ProjectileUtil.createArrowProjectile(Objects.requireNonNull(world.getClosestPlayer(this, 5d)),itemStack,1);
             persistentProjectileEntity.setProperties(world.getClosestPlayer(this,5d), world.getClosestPlayer(this,5d).getPitch(), world.getClosestPlayer(this,5d).getYaw(), 0.0F, f * 3.0F, 0.0F);
             persistentProjectileEntity.setCritical(true);
+            persistentProjectileEntity.pickupType= PersistentProjectileEntity.PickupPermission.DISALLOWED;
             world.spawnEntity(persistentProjectileEntity);
         }
     }

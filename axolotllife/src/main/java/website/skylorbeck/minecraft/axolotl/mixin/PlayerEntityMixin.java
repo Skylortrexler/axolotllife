@@ -47,6 +47,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
         storedEntity[2]= new BabyBigAxolotl(Declarar.BABYBIGAXOLOTL, ((PlayerEntity) (Object) this).world);
         storedEntity[3]= new AdolAxolotl(Declarar.ADOLAXOLOTL, ((PlayerEntity) (Object) this).world);
         storedEntity[4]= new ChadAxolotl(Declarar.CHADXOLOTL, ((PlayerEntity) (Object) this).world);
+
     }
 
     @Inject(at = @At("HEAD"), method = "tick")
@@ -98,16 +99,13 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
             ItemStack helm = Items.LEATHER_HELMET.getDefaultStack();
             helm.addEnchantment(Enchantments.RESPIRATION,5);
             equipStack(EquipmentSlot.HEAD, helm);
-        } else if (axostage>=3){
+        } else {
             equipStack(EquipmentSlot.HEAD,ItemStack.EMPTY);
         }
-        /*switch (this.axostage) {
-            case 0 -> this.setStoredEntity(new BabyAxolotl(Declarar.BABYAXOLOTL, ((PlayerEntity) (Object) this).world));
-            case 1 -> this.setStoredEntity(new BabyMedAxolotl(Declarar.BABYMEDAXOLOTL, ((PlayerEntity) (Object) this).world));
-            case 2 -> this.setStoredEntity(new BabyBigAxolotl(Declarar.BABYBIGAXOLOTL,((PlayerEntity) (Object) this).world));
-            case 3 -> this.setStoredEntity(new AdolAxolotl(Declarar.ADOLAXOLOTL, ((PlayerEntity) (Object) this).world));
-            case 4 -> this.setStoredEntity(new ChadAxolotl(Declarar.CHADXOLOTL, ((PlayerEntity) (Object) this).world));
-        }*/
+        switch (this.axostage) {
+            case 0, 1, 2 -> ((PlayerEntity) (Object) this).stepHeight = 1;
+            case 3, 4 -> ((PlayerEntity) (Object) this).stepHeight = 2;
+        }
     }
 
     @Inject(at = @At("RETURN"), method = "getActiveEyeHeight", cancellable = true)

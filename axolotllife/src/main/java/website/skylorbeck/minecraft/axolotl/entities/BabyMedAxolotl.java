@@ -7,6 +7,8 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -52,12 +54,14 @@ public class BabyMedAxolotl extends AxoBaseEntity implements IAnimatable {
 
     @Override
     public void useAbility() {
-        ItemStack itemStack = new ItemStack(Items.ARROW);
+        ItemStack itemStack = Items.TIPPED_ARROW.getDefaultStack();
+        PotionUtil.setPotion(itemStack, Potions.AWKWARD);
         float f = 0.25f;
         if (!world.isClient) {
             PersistentProjectileEntity persistentProjectileEntity = ProjectileUtil.createArrowProjectile(Objects.requireNonNull(world.getClosestPlayer(this, 5d)),itemStack,1);
             persistentProjectileEntity.setProperties(world.getClosestPlayer(this,5d), world.getClosestPlayer(this,5d).getPitch(), world.getClosestPlayer(this,5d).getYaw(), 0.0F, f * 3.0F, 1.0F);
             persistentProjectileEntity.setCritical(false);
+            persistentProjectileEntity.pickupType= PersistentProjectileEntity.PickupPermission.DISALLOWED;
             world.spawnEntity(persistentProjectileEntity);
         }
     }

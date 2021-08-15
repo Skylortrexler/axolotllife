@@ -40,7 +40,6 @@ public class Axolotl implements ModInitializer {
         register(Declarar.CHADXOLOTL,EntityUtils.createGenericEntityAttributes());
     }
 }
-//todo retex arrow to water
 //todo lang file
 
 //Can only survive in water. Instantly takes damage if out of the water
