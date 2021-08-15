@@ -34,20 +34,20 @@ public class ChadAxolotl extends AxoBaseEntity implements IAnimatable {
 
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
         Animation animation = event.getController().getCurrentAnimation();
-        if (animation!=null &&  Objects.equals(animation.animationName, "animation.irongolem.attack")){
-            if (event.getController().getAnimationState() == AnimationState.Stopped){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static",false));
+        if (animation != null && Objects.equals(animation.animationName, "animation.irongolem.attack")) {
+            if (event.getController().getAnimationState() == AnimationState.Stopped) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static", false));
             }
             return PlayState.CONTINUE;
         }
         if (this.handSwinging) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.attack",false));
-        } else if (this.isSubmergedInWater()||this.isInsideWaterOrBubbleColumn()||this.isTouchingWater()||this.isSwimming()||this.isSubmergedIn(FluidTags.WATER)){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.swin",true));
-        } else if (event.isMoving()){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.attack", false));
+        } else if (this.isSubmergedInWater() || this.isInsideWaterOrBubbleColumn() || this.isTouchingWater() || this.isSwimming() || this.isSubmergedIn(FluidTags.WATER)) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.swin", true));
+        } else if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.walk", true));
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static",true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static", true));
         }
         return PlayState.CONTINUE;
     }

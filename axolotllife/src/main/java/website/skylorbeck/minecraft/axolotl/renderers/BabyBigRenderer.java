@@ -19,7 +19,7 @@ public class BabyBigRenderer extends GeoEntityRenderer<BabyBigAxolotl> {
 
     @Override
     public RenderLayer getRenderType(BabyBigAxolotl animatable, float partialTicks, MatrixStack stack,
-                                     @Nullable VertexConsumerProvider renderTypeBuffer, @Nullable VertexConsumer vertexBuilder,
+                                      VertexConsumerProvider renderTypeBuffer,  VertexConsumer vertexBuilder,
                                      int packedLightIn, Identifier textureLocation) {
         return RenderLayer.getEntityTranslucent(this.getTextureLocation(animatable));
     }

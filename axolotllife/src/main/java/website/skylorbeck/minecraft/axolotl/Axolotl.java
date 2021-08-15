@@ -24,12 +24,14 @@ public class Axolotl implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        GeckoLibMod.DISABLE_IN_DEV = true;
         ServerSidePacketRegistryImpl.INSTANCE.register(useabilitypacket, (packetContext, attachedData) -> {
             packetContext.getTaskQueue().execute(() -> {
                 PlayerEntity playerEntity = packetContext.getPlayer();
                 ((AxoBaseEntity)((PlayerEntityAccessor)playerEntity).getStoredEntity()).useAbility();
             });
         });
+
         GeckoLib.initialize();
         register(Declarar.BABYAXOLOTL,EntityUtils.createGenericEntityAttributes());
         register(Declarar.BABYMEDAXOLOTL, EntityUtils.createGenericEntityAttributes());

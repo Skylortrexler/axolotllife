@@ -19,7 +19,7 @@ public class BabyMedRenderer extends GeoEntityRenderer<BabyMedAxolotl> {
 
     @Override
     public RenderLayer getRenderType(BabyMedAxolotl animatable, float partialTicks, MatrixStack stack,
-                                     @Nullable VertexConsumerProvider renderTypeBuffer, @Nullable VertexConsumer vertexBuilder,
+                                      VertexConsumerProvider renderTypeBuffer,  VertexConsumer vertexBuilder,
                                      int packedLightIn, Identifier textureLocation) {
         return RenderLayer.getEntityTranslucent(this.getTextureLocation(animatable));
     }
