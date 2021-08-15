@@ -2,6 +2,7 @@ package website.skylorbeck.minecraft.axolotl.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -14,11 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import website.skylorbeck.minecraft.axolotl.PlayerEntityAccessor;
 
 @Mixin(PlayerEntityRenderer.class)
-public class PlayerAnimatable {
+public class PlayerEntityRendererMixin {
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void injectedRender(AbstractClientPlayerEntity acpe, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci){
-        LivingEntity entity =((PlayerEntityAccessor)acpe).getStoredEntity();
+        LivingEntity entity = ((PlayerEntityAccessor) acpe).getStoredEntity();
+   /*     if (acpe instanceof ClientPlayerEntity){
+            entity = ((PlayerEntityAccessor)MinecraftClient.getInstance().player).getStoredEntity();
+        }*/
         entity.bodyYaw = ((PlayerEntity) (Object) acpe).bodyYaw;
         entity.prevBodyYaw = ((PlayerEntity) (Object) acpe).prevBodyYaw;
         entity.headYaw = ((PlayerEntity) (Object) acpe).headYaw;

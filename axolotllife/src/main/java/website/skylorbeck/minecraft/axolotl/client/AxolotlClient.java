@@ -12,6 +12,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import org.lwjgl.glfw.GLFW;
 import website.skylorbeck.minecraft.axolotl.Axolotl;
@@ -48,6 +49,7 @@ public class AxolotlClient implements ClientModInitializer {
             int data = attachedData.readInt();
             packetContext.getTaskQueue().execute(() -> {
                 PlayerEntity playerEntity = MinecraftClient.getInstance().player;
+//                playerEntity.sendMessage(Text.of(data+""),false);
                 ((PlayerEntityAccessor)playerEntity).setAxostage(data);
             });
         });

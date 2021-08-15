@@ -18,16 +18,21 @@ public class EntityMixin {
      */
     @Overwrite
     public final float getStandingEyeHeight() {
-        if (MinecraftClient.getInstance().player != null) {
-            LivingEntity living = ((PlayerEntityAccessor) MinecraftClient.getInstance().player).getStoredEntity();
-            if (living instanceof BabyAxolotl) {
-                return 0.5f;
-            } else if (living instanceof BabyMedAxolotl || living instanceof BabyBigAxolotl) {
-                return 1f;
-            } else if (living instanceof AdolAxolotl) {
-                return 2.5f;
-            } else if (living instanceof ChadAxolotl) {
-                return 3.5f;
+        if (MinecraftClient.getInstance().player != null && ((Entity)(Object)this).isPlayer()) {
+            int living = ((PlayerEntityAccessor)this).getAxostage();
+            switch (living){
+                case 0 -> {
+                    return 0.5f;
+                }
+                case 1, 2 -> {
+                    return 1f;
+                }
+                case 3 -> {
+                    return 2.5f;
+                }
+                case 4 -> {
+                    return 3.5f;
+                }
             }
         }
         return 0.5f;

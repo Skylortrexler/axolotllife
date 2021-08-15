@@ -39,7 +39,6 @@ public abstract class ServerWorldMixin {
         String playername = "";
         PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
         for (PlayerEntity player:this.players) {
-            packetByteBuf.writeUuid(player.getUuid());
             playername = player.getEntityName();
             if (((PlayerEntityAccessor)player).getAxostage() == 0 ) {
                 if (scoreboard.getPlayerScore(playername, scoreboard.getObjective("fish")).getScore() >= 3) {

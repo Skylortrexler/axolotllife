@@ -6,7 +6,7 @@
   "mixins": [
     "LivingEntityAccessor",
     "LivingEntityMixin",
-    "PlayerAnimatable",
+    "PlayerEntityRendererMixin",
     "PlayerEntityMixin",
     "ServerWorldMixin"
   ],
