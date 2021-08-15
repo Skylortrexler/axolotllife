@@ -22,7 +22,6 @@ public class Axolotl implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        GeckoLibMod.DISABLE_IN_DEV = true;
         GeckoLib.initialize();
         FabricDefaultAttributeRegistry.register(Declarar.BABYAXOLOTL,
                 EntityUtils.createGenericEntityAttributes());
