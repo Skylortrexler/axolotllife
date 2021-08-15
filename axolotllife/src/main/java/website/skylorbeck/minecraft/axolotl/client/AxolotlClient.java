@@ -21,6 +21,8 @@ import website.skylorbeck.minecraft.axolotl.PlayerEntityAccessor;
 import website.skylorbeck.minecraft.axolotl.entities.AxoBaseEntity;
 import website.skylorbeck.minecraft.axolotl.renderers.*;
 
+import java.util.UUID;
+
 import static website.skylorbeck.minecraft.axolotl.Axolotl.setmodel;
 
 @net.fabricmc.api.Environment(net.fabricmc.api.EnvType.CLIENT)
@@ -36,20 +38,19 @@ public class AxolotlClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (Declarar.specialability.wasPressed()) {
                 MinecraftClient.getInstance().player.swingHand(Hand.MAIN_HAND);
-//                ((AxoBaseEntity)((PlayerEntityAccessor)MinecraftClient.getInstance().player).getStoredEntity()).useAbility();
                 PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer());
                 packetByteBuf.writeUuid(MinecraftClient.getInstance().player.getUuid());
                 ClientSidePacketRegistryImpl.INSTANCE.sendToServer(Axolotl.useabilitypacket,packetByteBuf);
             }
         });
         ClientSidePacketRegistryImpl.INSTANCE.register(setmodel, (packetContext, attachedData) -> {
-            int data = attachedData.readInt();
+            String string = attachedData.readString();
+            int i = attachedData.readInt();
             packetContext.getTaskQueue().execute(() -> {
-                PlayerEntity playerEntity = MinecraftClient.getInstance().player;
-                ((PlayerEntityAccessor)playerEntity).setAxostage(data);
+                PlayerEntity playerEntity = packetContext.getPlayer().world.getPlayerByUuid(UUID.fromString(string));
+                ((PlayerEntityAccessor)playerEntity).setAxostage(i);
             });
         });
-
         EntityRendererRegistry.INSTANCE.register(Declarar.BABYAXOLOTL,BabyRenderer::new);
         EntityRendererRegistry.INSTANCE.register(Declarar.BABYMEDAXOLOTL, BabyMedRenderer::new);
         EntityRendererRegistry.INSTANCE.register(Declarar.BABYBIGAXOLOTL, BabyBigRenderer::new);

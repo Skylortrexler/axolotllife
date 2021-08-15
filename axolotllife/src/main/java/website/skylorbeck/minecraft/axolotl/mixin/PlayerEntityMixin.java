@@ -1,6 +1,7 @@
 package website.skylorbeck.minecraft.axolotl.mixin;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -11,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,11 +37,11 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     @Shadow public abstract void equipStack(EquipmentSlot slot, ItemStack stack);
 
     public int axostage = 0;
+    public int cooldown = 30;
     private static final LivingEntity[] storedEntity = new LivingEntity[5];
 
     @Inject(at = @At("RETURN"), method = "<init>")
     public void injectedInit(World world, BlockPos pos, float yaw, GameProfile profile, CallbackInfo ci) {
-//        storedEntity = new BabyAxolotl(Declarar.BABYAXOLOTL, world);
         storedEntity[0]= new BabyAxolotl(Declarar.BABYAXOLOTL, ((PlayerEntity) (Object) this).world);
         storedEntity[1]= new BabyMedAxolotl(Declarar.BABYMEDAXOLOTL, ((PlayerEntity) (Object) this).world);
         storedEntity[2]= new BabyBigAxolotl(Declarar.BABYBIGAXOLOTL, ((PlayerEntity) (Object) this).world);
@@ -63,6 +65,12 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
         entity.setOnGround(((PlayerEntity) (Object) this).isOnGround());
         entity.setVelocity(((PlayerEntity) (Object) this).getVelocity());
         entity.setPose(((PlayerEntity) (Object) this).getPose());
+        if (this.cooldown<30){
+            this.cooldown++;
+        }
+        if (this.cooldown>30){
+            this.cooldown = 30;
+        }
     }
     @Override
     public int getAxostage(){
@@ -75,11 +83,14 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
         }
         return storedEntity[0];
     }
-   /* @Override
-    public void setStoredEntity(LivingEntity entity){
-        storedEntity = entity;
-    }
-*/
+   @Override
+   public void useAbility() {
+       if (cooldown == 30) {
+           ((PlayerEntity) (Object) this).swingHand(Hand.MAIN_HAND);
+           ((AxoBaseEntity) this.getStoredEntity()).useAbility();
+           cooldown = 0;
+       }
+   }
     @Override
     public void setAxostage(int i) {
         this.axostage =i;

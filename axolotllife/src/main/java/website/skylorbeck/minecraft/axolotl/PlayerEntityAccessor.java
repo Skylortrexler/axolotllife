@@ -7,5 +7,6 @@ public interface PlayerEntityAccessor {
     void setAxostage(int i);
     LivingEntity getStoredEntity();
     void setStoredEntity(LivingEntity entity);
+    void useAbility();
 
 }

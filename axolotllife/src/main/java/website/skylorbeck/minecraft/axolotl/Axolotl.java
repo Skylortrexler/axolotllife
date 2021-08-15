@@ -28,7 +28,7 @@ public class Axolotl implements ModInitializer {
         ServerSidePacketRegistryImpl.INSTANCE.register(useabilitypacket, (packetContext, attachedData) -> {
             packetContext.getTaskQueue().execute(() -> {
                 PlayerEntity playerEntity = packetContext.getPlayer();
-                ((AxoBaseEntity)((PlayerEntityAccessor)playerEntity).getStoredEntity()).useAbility();
+                ((PlayerEntityAccessor)playerEntity).useAbility();
             });
         });
 
@@ -40,6 +40,9 @@ public class Axolotl implements ModInitializer {
         register(Declarar.CHADXOLOTL,EntityUtils.createGenericEntityAttributes());
     }
 }
+//todo retex arrow to water
+//todo lang file
+
 //Can only survive in water. Instantly takes damage if out of the water
 //Must kill 3 small fish before evolving
 //
