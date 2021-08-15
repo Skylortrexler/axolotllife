@@ -84,9 +84,14 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
 
 
         if (scoreboard.getPlayerScore(playername, scoreboard.getObjective("override")).getScore() >= 1){
-            this.axostage = 3;
-            EntityRetainer.setEntity(new AdolAxolotl(Declarar.ADOLAXOLOTL, ((PlayerEntity) (Object) this).world));
-            ((EntityAccessor)this).setStandingEyeHeight(5f);
+            this.axostage = scoreboard.getPlayerScore(playername, scoreboard.getObjective("override")).getScore();
+            switch(this.axostage){
+                case 0 -> EntityRetainer.setEntity(new BabyAxolotl(Declarar.BABYAXOLOTL,((PlayerEntity) (Object) this).world));
+                case 1 -> EntityRetainer.setEntity(new BabyMedAxolotl(Declarar.BABYMEDAXOLOTL,((PlayerEntity) (Object) this).world));
+                case 2 -> EntityRetainer.setEntity(new BabyBigAxolotl(Declarar.BABYBIGAXOLOTL,((PlayerEntity) (Object) this).world));
+                case 3 -> EntityRetainer.setEntity(new AdolAxolotl(Declarar.ADOLAXOLOTL,((PlayerEntity) (Object) this).world));
+                case 4 -> EntityRetainer.setEntity(new ChadAxolotl(Declarar.CHADXOLOTL,((PlayerEntity) (Object) this).world));
+            }
         }
 
 

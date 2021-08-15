@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import website.skylorbeck.minecraft.axolotl.EntityRetainer;
-import website.skylorbeck.minecraft.axolotl.PlayerEntityAccessor;
 import website.skylorbeck.minecraft.axolotl.entities.BabyAxolotl;
 import website.skylorbeck.minecraft.axolotl.entities.BabyBigAxolotl;
 import website.skylorbeck.minecraft.axolotl.entities.BabyMedAxolotl;

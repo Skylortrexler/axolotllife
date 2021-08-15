@@ -2,28 +2,15 @@ package website.skylorbeck.minecraft.axolotl.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import software.bernie.shadowed.eliotlash.mclib.math.functions.limit.Min;
-import website.skylorbeck.minecraft.axolotl.Declarar;
 import website.skylorbeck.minecraft.axolotl.EntityRetainer;
-import website.skylorbeck.minecraft.axolotl.entities.AxoBaseEntity;
-import website.skylorbeck.minecraft.axolotl.entities.BabyAxolotl;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerAnimatable {

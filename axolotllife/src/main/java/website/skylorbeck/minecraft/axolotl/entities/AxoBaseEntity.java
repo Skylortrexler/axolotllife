@@ -18,4 +18,8 @@ public class AxoBaseEntity extends PathAwareEntity  {
     public void setState(int state) {
         this.state = state;
     }
+
+    public void useAbility(){
+
+    }
 }

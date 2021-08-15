@@ -1,9 +1,16 @@
 package website.skylorbeck.minecraft.axolotl.entities;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -14,6 +21,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.List;
 import java.util.Objects;
 
 public class AdolAxolotl extends AxoBaseEntity implements IAnimatable {
@@ -60,5 +68,20 @@ public class AdolAxolotl extends AxoBaseEntity implements IAnimatable {
     @Override
     public AnimationFactory getFactory() {
         return factory;
+    }
+
+    @Override
+    public void useAbility() {
+        if (!this.world.isClient) {
+            List<Entity> list = this.world.getOtherEntities(this, this.world.getClosestPlayer(this,5).getBoundingBox().expand(3D));
+            if (!list.isEmpty()) {
+                for (Entity value : list) {
+                    if (value instanceof LivingEntity && !(value instanceof PlayerEntity)) {
+                        value.damage(DamageSource.GENERIC,10);
+                        ((LivingEntity) value).takeKnockback(1D, (double) MathHelper.sin(this.world.getClosestPlayer(this,5).getYaw() * 0.017453292F), (double)(-MathHelper.cos(this.world.getClosestPlayer(this,5).getYaw() * 0.017453292F)));
+                    }
+                }
+            }
+        }
     }
 }

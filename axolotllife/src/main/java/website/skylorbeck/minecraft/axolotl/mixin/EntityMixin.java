@@ -21,9 +21,9 @@ public class EntityMixin {
         } else if (living instanceof BabyMedAxolotl || living instanceof BabyBigAxolotl){
             return 1f;
         } else if (living instanceof AdolAxolotl){
-            return 3f;
+            return 2.5f;
         } else if (living instanceof ChadAxolotl){
-            return 4f;
+            return 3.5f;
         }
         return 0.5f;
     }

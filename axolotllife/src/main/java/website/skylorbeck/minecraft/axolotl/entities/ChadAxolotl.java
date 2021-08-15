@@ -1,10 +1,16 @@
 package website.skylorbeck.minecraft.axolotl.entities;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
+import net.minecraft.world.timer.Timer;
+import net.minecraft.world.timer.TimerCallbackSerializer;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -15,6 +21,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public class ChadAxolotl extends AxoBaseEntity implements IAnimatable {
@@ -27,7 +34,7 @@ public class ChadAxolotl extends AxoBaseEntity implements IAnimatable {
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<ChadAxolotl>(this, "controller", 5, this::predicate));
+        data.addAnimationController(new AnimationController<ChadAxolotl>(this, "controller", 0, this::predicate));
     }
 
 
@@ -35,7 +42,7 @@ public class ChadAxolotl extends AxoBaseEntity implements IAnimatable {
         Animation animation = event.getController().getCurrentAnimation();
         if (animation!=null &&  Objects.equals(animation.animationName, "animation.irongolem.attack")){
             if (event.getController().getAnimationState() == AnimationState.Stopped){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static",true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.irongolem.static",false));
             }
             return PlayState.CONTINUE;
         }
@@ -54,5 +61,17 @@ public class ChadAxolotl extends AxoBaseEntity implements IAnimatable {
     @Override
     public AnimationFactory getFactory() {
         return factory;
+    }
+
+    @Override
+    public void useAbility() {
+        if (!this.world.isClient) {
+            Explosion.DestructionType destructionType = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
+            this.world.createExplosion(this.world.getClosestPlayer(this,5), this.getX(), this.getY(), this.getZ(), 5, destructionType);
+        }
+    }
+    @Override
+    public boolean isImmuneToExplosion() {
+        return true;
     }
 }
