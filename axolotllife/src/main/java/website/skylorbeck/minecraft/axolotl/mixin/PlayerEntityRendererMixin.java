@@ -19,7 +19,7 @@ public class PlayerEntityRendererMixin {
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void injectedRender(AbstractClientPlayerEntity acpe, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci){
-        if (acpe!=null) {
+        if (acpe!=null && ((PlayerEntityAccessor)acpe).getAxostage()>=0) {
             LivingEntity entity = ((PlayerEntityAccessor) acpe).getStoredEntity();
             entity.setPos(acpe.getX(), acpe.getY(), acpe.getZ());
             entity.lastLimbDistance = acpe.lastLimbDistance;

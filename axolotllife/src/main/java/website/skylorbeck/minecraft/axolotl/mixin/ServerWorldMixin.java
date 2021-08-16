@@ -76,8 +76,14 @@ public abstract class ServerWorldMixin {
                 sendModelToAll(player.getUuid(),4);
             }
             if (scoreboard.getPlayerScore(playername, scoreboard.getObjective("override")).getScore() >= 1) {
-                ((PlayerEntityAccessor)player).setAxostage(scoreboard.getPlayerScore(playername, scoreboard.getObjective("override")).getScore());
-                sendModelToAll(player.getUuid(),scoreboard.getPlayerScore(playername, scoreboard.getObjective("override")).getScore());
+                int score = scoreboard.getPlayerScore(playername, scoreboard.getObjective("override")).getScore();
+                if (score>=5) {
+                    ((PlayerEntityAccessor) player).setAxostage(0);
+                } else {
+                    ((PlayerEntityAccessor) player).setAxostage(score);
+                }
+                sendModelToAll(player.getUuid(),score);
+                scoreboard.getPlayerScore(playername, scoreboard.getObjective("override")).setScore(0);
             }
         }
     }

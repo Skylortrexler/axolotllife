@@ -47,9 +47,13 @@ public class AxolotlClient implements ClientModInitializer {
         ClientSidePacketRegistryImpl.INSTANCE.register(setmodel, (packetContext, attachedData) -> {
             String string = attachedData.readString();
             int i = attachedData.readInt();
+            if (i>=5){
+                i=0;
+            }
+            int finalI = i;
             packetContext.getTaskQueue().execute(() -> {
                 PlayerEntity playerEntity = packetContext.getPlayer().world.getPlayerByUuid(UUID.fromString(string));
-                ((PlayerEntityAccessor)playerEntity).setAxostage(i);
+                ((PlayerEntityAccessor)playerEntity).setAxostage(finalI);
             });
         });
         EntityRendererRegistry.INSTANCE.register(Declarar.BABYAXOLOTL,BabyRenderer::new);

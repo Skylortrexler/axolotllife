@@ -11,6 +11,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.s2c.play.PlaySoundIdS2CPacket;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +37,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
 
     @Shadow public abstract void equipStack(EquipmentSlot slot, ItemStack stack);
 
-    public int axostage = 0;
+    public int axostage = -1;
     public int cooldown = 30;
     private static final LivingEntity[] storedEntity = new LivingEntity[5];
 
@@ -94,6 +95,7 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
    }
     @Override
     public void setAxostage(int i) {
+        ((PlayerEntity) (Object) this).addEnchantedHitParticles(((PlayerEntity) (Object) this));
         this.axostage =i;
         if (axostage==2){
             ItemStack helm = Items.LEATHER_HELMET.getDefaultStack();
@@ -109,17 +111,13 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
     }
 
     @Inject(at = @At("RETURN"), method = "getActiveEyeHeight", cancellable = true)
-    protected void getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> cir){
-        LivingEntity living = storedEntity[axostage];
-        if (living instanceof BabyAxolotl){
-            cir.setReturnValue(0.5f);
-        } else if (living instanceof BabyMedAxolotl|| living instanceof BabyBigAxolotl){
-            cir.setReturnValue(1f);
-        } else if (living instanceof AdolAxolotl){
-            cir.setReturnValue(2.5f);
-        } else if (living instanceof ChadAxolotl){
-            cir.setReturnValue(3.5f);
+    protected void getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> cir) {
+        switch (axostage){
+            case 0 ->  cir.setReturnValue(0.5f);
+            case 1 ->  cir.setReturnValue(1f);
+            case 2 ->  cir.setReturnValue(1.5f);
+            case 3 ->  cir.setReturnValue(2.5f);
+            case 4 ->  cir.setReturnValue(3.5f);
         }
     }
-
 }

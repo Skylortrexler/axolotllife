@@ -19,9 +19,9 @@ public class LivingEntityMixin {
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/Tag;)Z"), method = "baseTick")
     public boolean injected(LivingEntity livingEntity, Tag<Fluid> fluidTag) {
         BlockPos blockPos = new BlockPos(((LivingEntity) (Object) this).getX(), ((LivingEntity) (Object) this).getEyeY(), ((LivingEntity) (Object) this).getZ());
-        if (livingEntity instanceof PlayerEntity){
-            LivingEntity living = ((PlayerEntityAccessor)livingEntity).getStoredEntity();
-            return (((LivingEntity) (Object) this).world.getBlockState(blockPos).isOf(Blocks.AIR) && (living instanceof BabyAxolotl || living instanceof BabyMedAxolotl || living instanceof BabyBigAxolotl));
+        if (livingEntity instanceof PlayerEntity &&((PlayerEntityAccessor)livingEntity).getAxostage()>=0){
+            int living = ((PlayerEntityAccessor)livingEntity).getAxostage();
+            return (((LivingEntity) (Object) this).world.getBlockState(blockPos).isOf(Blocks.AIR) && (living<3));
         }
         return livingEntity.isSubmergedIn(fluidTag);
     }
