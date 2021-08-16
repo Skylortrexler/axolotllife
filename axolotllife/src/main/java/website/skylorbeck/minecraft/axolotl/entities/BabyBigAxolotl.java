@@ -2,7 +2,9 @@ package website.skylorbeck.minecraft.axolotl.entities;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.GhastEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
@@ -11,7 +13,10 @@ import net.minecraft.item.Items;
 import net.minecraft.item.TippedArrowItem;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -56,15 +61,15 @@ public class BabyBigAxolotl extends AxoBaseEntity implements IAnimatable {
 
     @Override
     public void useAbility() {
-        ItemStack itemStack = Items.TIPPED_ARROW.getDefaultStack();
-        PotionUtil.setPotion(itemStack, Potions.AWKWARD);
-        float f = 0.75f;
         if (!world.isClient) {
-            PersistentProjectileEntity persistentProjectileEntity = ProjectileUtil.createArrowProjectile(Objects.requireNonNull(world.getClosestPlayer(this, 5d)),itemStack,1);
-            persistentProjectileEntity.setProperties(world.getClosestPlayer(this,5d), world.getClosestPlayer(this,5d).getPitch(), world.getClosestPlayer(this,5d).getYaw(), 0.0F, f * 3.0F, 0.0F);
-            persistentProjectileEntity.setCritical(true);
-            persistentProjectileEntity.pickupType= PersistentProjectileEntity.PickupPermission.DISALLOWED;
-            world.spawnEntity(persistentProjectileEntity);
+            HitResult hitResult = world.getClosestPlayer(this,5d).raycast(100D, 1f,false);
+            Vec3d vec3d = world.getClosestPlayer(this,5d).getRotationVec(1.0F);
+            double x = hitResult.getPos().getX() - (this.getX() + vec3d.x * 4.0D);
+            double y = hitResult.getPos().getY() - (0.5D + this.getBodyY(0.5D));
+            double z = hitResult.getPos().getZ() - (this.getZ() + vec3d.z * 4.0D);
+            FireballEntity fireballEntity = new FireballEntity(world, this, x, y, z, 1);
+            fireballEntity.setPosition(world.getClosestPlayer(this,5d).getPos().getX(),world.getClosestPlayer(this,5d).getPos().getY()+1,world.getClosestPlayer(this,5d).getPos().getZ());
+            world.spawnEntity(fireballEntity);
         }
     }
 }

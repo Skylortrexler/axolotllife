@@ -61,11 +61,16 @@ public class ChadAxolotl extends AxoBaseEntity implements IAnimatable {
     public void useAbility() {
         if (!this.world.isClient) {
             Explosion.DestructionType destructionType = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
-            this.world.createExplosion(this.world.getClosestPlayer(this,5), this.getX(), this.getY(), this.getZ(), 5, destructionType);
+            this.world.createExplosion(this.world.getClosestPlayer(this,5), this.getX(), this.getY(), this.getZ(),5,true, destructionType);
         }
     }
     @Override
     public boolean isImmuneToExplosion() {
         return true;
+    }
+
+    @Override
+    public boolean isInLava() {
+        return false;
     }
 }

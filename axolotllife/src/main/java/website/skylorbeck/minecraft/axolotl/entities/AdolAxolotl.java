@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -71,11 +72,12 @@ public class AdolAxolotl extends AxoBaseEntity implements IAnimatable {
     @Override
     public void useAbility() {
         if (!this.world.isClient) {
+            this.world.createExplosion(this.world.getClosestPlayer(this,5), this.getX(), this.getY(), this.getZ(), 2,true, Explosion.DestructionType.NONE);
             List<Entity> list = this.world.getOtherEntities(this, this.world.getClosestPlayer(this,5).getBoundingBox().expand(3D));
             if (!list.isEmpty()) {
                 for (Entity value : list) {
                     if (value instanceof LivingEntity && !(value instanceof PlayerEntity)) {
-                        value.damage(DamageSource.GENERIC,10);
+                        value.damage(DamageSource.GENERIC,5);
                         ((LivingEntity) value).takeKnockback(1D, (double) MathHelper.sin(this.world.getClosestPlayer(this,5).getYaw() * 0.017453292F), (double)(-MathHelper.cos(this.world.getClosestPlayer(this,5).getYaw() * 0.017453292F)));
                     }
                 }

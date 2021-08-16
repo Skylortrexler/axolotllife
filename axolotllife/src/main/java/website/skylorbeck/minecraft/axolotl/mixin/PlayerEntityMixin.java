@@ -8,11 +8,14 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.PlaySoundIdS2CPacket;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -95,21 +98,67 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
    }
     @Override
     public void setAxostage(int i) {
-        ((PlayerEntity) (Object) this).addEnchantedHitParticles(((PlayerEntity) (Object) this));
+        PlayerEntity playerEntity = ((PlayerEntity) (Object) this);
+        playerEntity.addEnchantedHitParticles(playerEntity);
         this.axostage =i;
         if (axostage==2){
             ItemStack helm = Items.LEATHER_HELMET.getDefaultStack();
-            helm.addEnchantment(Enchantments.RESPIRATION,5);
+            helm.addEnchantment(Enchantments.RESPIRATION,2);
             equipStack(EquipmentSlot.HEAD, helm);
         } else {
             equipStack(EquipmentSlot.HEAD,ItemStack.EMPTY);
         }
         switch (this.axostage) {
-            case 2 -> ((PlayerEntity) (Object) this).stepHeight = 1;
-            case 3, 4 -> ((PlayerEntity) (Object) this).stepHeight = 2;
+            case 0:
+                if (playerEntity.world.isClient) {
+                    playerEntity.sendMessage(Text.of("Kill three Cod to evolve"), false);
+                    playerEntity.sendMessage(Text.of("You suffocate instantly outside water"), false);
+                }
+                break;
+            case 1:
+                if (playerEntity.world.isClient) {
+                    playerEntity.sendMessage(Text.of("Kill two Drowned to evolve"), false);
+                    playerEntity.sendMessage(Text.of("Push Z to shoot water"), false);
+                }
+                playerEntity.stepHeight = 1;
+                break;
+            case 2:
+                if (playerEntity.world.isClient) {
+                    playerEntity.sendMessage(Text.of("Kill 1 Zombie, 1 Spider and 1 Skeleton to evolve"), false);
+                    playerEntity.sendMessage(Text.of("Push Z to shoot a fireball"), false);
+                }
+                playerEntity.stepHeight = 1;
+
+                break;
+            case 3:
+                if (playerEntity.world.isClient) {
+                    playerEntity.sendMessage(Text.of("Kill 1 Piglin, 1 Wither Skeleton, 1 Enderman and 1 Blaze to evolve"), false);
+                    playerEntity.sendMessage(Text.of("Push Z to explosive punch"), false);
+                }
+                playerEntity.stepHeight = 2;
+
+                break;
+            case 4:
+                if (playerEntity.world.isClient) {
+                    playerEntity.sendMessage(Text.of("You are the ultimate Axolotl!"), false);
+                    playerEntity.sendMessage(Text.of("Push Z to Grand Slam!"), false);
+                }
+                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,9999,9));
+                playerEntity.stepHeight = 2;
+                break;
         }
     }
 
+    @Inject(at = @At("RETURN"), method = "getMovementSpeed", cancellable = true)
+    public void injectedMovementSpeed(CallbackInfoReturnable<Float> cir){
+        switch (axostage){
+            case 0 -> cir.setReturnValue(0.1f);
+            case 1 -> cir.setReturnValue(0.11f);
+            case 2 -> cir.setReturnValue(0.115f);
+            case 3 -> cir.setReturnValue(0.125f);
+            case 4 -> cir.setReturnValue(0.135f);
+        }
+    }
     @Inject(at = @At("RETURN"), method = "getActiveEyeHeight", cancellable = true)
     protected void getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> cir) {
         switch (axostage){
@@ -118,6 +167,12 @@ public abstract class PlayerEntityMixin implements PlayerEntityAccessor {
             case 2 ->  cir.setReturnValue(1.5f);
             case 3 ->  cir.setReturnValue(2.5f);
             case 4 ->  cir.setReturnValue(3.5f);
+        }
+    }
+    @Inject(at = @At("RETURN"), method = "isInvulnerableTo", cancellable = true)
+    public void injectedInvuln(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir){
+        if (axostage==4 && (damageSource == DamageSource.LAVA ||damageSource.isFromFalling() || damageSource.isFire())){
+            cir.setReturnValue(true);
         }
     }
 }

@@ -56,11 +56,11 @@ public class BabyMedAxolotl extends AxoBaseEntity implements IAnimatable {
     public void useAbility() {
         ItemStack itemStack = Items.TIPPED_ARROW.getDefaultStack();
         PotionUtil.setPotion(itemStack, Potions.AWKWARD);
-        float f = 0.25f;
+        float f = 0.75f;
         if (!world.isClient) {
             PersistentProjectileEntity persistentProjectileEntity = ProjectileUtil.createArrowProjectile(Objects.requireNonNull(world.getClosestPlayer(this, 5d)),itemStack,1);
-            persistentProjectileEntity.setProperties(world.getClosestPlayer(this,5d), world.getClosestPlayer(this,5d).getPitch(), world.getClosestPlayer(this,5d).getYaw(), 0.0F, f * 3.0F, 1.0F);
-            persistentProjectileEntity.setCritical(false);
+            persistentProjectileEntity.setProperties(world.getClosestPlayer(this,5d), world.getClosestPlayer(this,5d).getPitch(), world.getClosestPlayer(this,5d).getYaw(), 0.0F, f * 3.0F, 0.0F);
+            persistentProjectileEntity.setCritical(true);
             persistentProjectileEntity.pickupType= PersistentProjectileEntity.PickupPermission.DISALLOWED;
             world.spawnEntity(persistentProjectileEntity);
         }
